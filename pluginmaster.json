@@ -13,6 +13,11 @@
     "CanUnloadAsync": false,
     "LoadPriority": 0,
     "Punchline": "Automatically shows where treasure maps are located.",
-    "AcceptsFeedback": true
+    "AcceptsFeedback": true,
+    "DownloadLinkInstall": "https://github.com/DiceFFXiv/GlobeTrotter/raw/refs/heads/main/Globetrotter/latest.zip",
+    "IsHide": false,
+    "IsTestingExclusive": false,
+    "DownloadLinkTesting": "https://github.com/DiceFFXiv/GlobeTrotter/raw/refs/heads/main/Globetrotter/latest.zip",
+    "DownloadLinkUpdate": "https://github.com/DiceFFXiv/GlobeTrotter/raw/refs/heads/main/Globetrotter/latest.zip",
   }
 ]
