@@ -9,7 +9,7 @@ namespace Globetrotter {
 
         public int Version { get; set; } = 1;
 
-        public bool ShowOnHover { get; set; } = true;
+        public bool ShowOnHover { get; set; } = false;
         public bool ShowOnDecipher { get; set; } = true;
         public bool ShowOnOpen { get; set; } = true;
 

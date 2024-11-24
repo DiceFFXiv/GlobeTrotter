@@ -1,5 +1,5 @@
 ﻿using Dalamud.Hooking;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +21,7 @@ namespace Globetrotter {
                 var mapToRow = new Dictionary<uint, uint>();
 
                 foreach (var rank in this.Plugin.DataManager.GetExcelSheet<TreasureHuntRank>()!) {
-                    var unopened = rank.ItemName.Value;
+                    Item? unopened = rank.ItemName.Value;
                     if (unopened == null) {
                         continue;
                     }
@@ -32,13 +32,14 @@ namespace Globetrotter {
                         opened = rank.KeyItemName.Value;
                     } catch (NullReferenceException) {
                         opened = null;
+                    } catch (InvalidOperationException) {
+                        opened = null;
                     }
 
-                    if (opened == null) {
-                        continue;
+                    if (opened != null)
+                    {
+                        mapToRow[opened.Value.RowId] = rank.RowId;
                     }
-
-                    mapToRow[opened.RowId] = rank.RowId;
                 }
 
                 _mapToRow = mapToRow;
@@ -142,15 +143,12 @@ namespace Globetrotter {
                 return;
             }
 
-            var spot = this.Plugin.DataManager.GetExcelSheet<TreasureSpot>()!.GetRow(rowId, packet.SubRowId);
+            // オーバーフローしたら知らない.
+            var spot = this.Plugin.DataManager.GetSubrowExcelSheet<TreasureSpot>()!.GetSubrow(rowId, (ushort)packet.SubRowId);
 
-            var loc = spot?.Location?.Value;
-            var map = loc?.Map?.Value;
-            var terr = map?.TerritoryType?.Value;
-
-            if (terr == null) {
-                return;
-            }
+            var loc = spot.Location.Value;
+            var map = loc.Map.Value;
+            var terr = map.TerritoryType.Value;
 
             var x = ToMapCoordinate(loc!.X, map!.SizeFactor);
             var y = ToMapCoordinate(loc.Z, map.SizeFactor);
